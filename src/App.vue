@@ -4,7 +4,7 @@
   <!-- <Child /> -->
   <Header :todos="todos" @addItem="addItem" />
   <List />
-  <Footer />
+  <Footer @delAll="delAll" @changeAll="changeAll"/>
 </template>
 
 <script lang="ts">
@@ -46,16 +46,16 @@ export default {
       todos: JSON.parse(localStorage.getItem('todos') || '[{"id":"1","content":"原始值","isCompleted":false}]')
     });
 
-    // 要给todos设置响应式，不然删除的时候需要最简单的方法是splice
+    // 要给todos设置响应式，不然删除的时候需要最简单的方法是splice，因为splice是自带响应式的
     let todos = toRef(states, "todos")
 
     // 把响应式ref的todos传值给后代，当这里改变todos的时候。inject那里就能马上获取最新的了
     // 方法1
     provide("todos", todos);
     // 方法2直接传死的，这样是没有响应式的
-/*     provide: {
-      todos: states.todos
-    } */
+    /*     provide: {
+          todos: states.todos
+        } */
 
     // 添加
     function addItem(value: Todo) {
@@ -75,23 +75,45 @@ export default {
       if (window.confirm(`${todo.content}将被删除！`)) {
 
         // 当todos被设置成代理后，toRef后，下面这样写才能触发响应式，一删马上更新页面
+        // 注意啊！！！是.value，这点和vue2不一样，不写.value，那他就会说找不到filter方法
         todos.value = todos.value.filter((t) => t.id !== todo.id);
-      } 
+      }
 
 
     }
     // 删除todo，方法2，不需要设置states.todos的toRef
-/*     function delTodo(index: number) {
-      if (window.confirm(`${index}将被删除！`)) {
-        // 因为splice是响应式方法，即使states.todos没设置toRef也会刷新
-        states.todos.splice(index, 1)  //用index算的时候
-      }
-    } */
+    /*     function delTodo(index: number) {
+          if (window.confirm(`${index}将被删除！`)) {
+            // 因为splice是响应式方法，即使states.todos没设置toRef也会刷新
+            states.todos.splice(index, 1)  //用index算的时候
+          }
+        } */
+
+    // 删除所有已完成的
+    function delAll() {
+      todos.value = todos.value.filter((t) => t.isCompleted !== true);
+    }
+    // 更改todo的状态，找到那一个todo然后改
+    function changeStatus(todo: { id: string, isCompleted: boolean }) {
+      todos.value = todos.value.map((t): any => {
+        if (t.id === todo.id) {
+          t.isCompleted = todo.isCompleted;
+        }
+        return t;
+      })
+    }
+    // 全选与全不选
+    function changeAll(flag: boolean) {
+      todos.value.forEach((t)=>{
+        t.isCompleted = flag;
+      })
+    }
     onMounted(() => {
-      // 绑定
+      // 绑定删除事件
       mitterBus.$on('delTodo', delTodo);
       // console.log(mitterBus)
-
+      // 绑定更改任务状态的事件
+      mitterBus.$on('changeStatus', changeStatus)
 
     });
     // 监视todos变了就改，因为watch监视的对象不包括普通对象，所以用箭头函数指定需要被监视的数据
@@ -102,6 +124,8 @@ export default {
     return {
       ...toRefs(states),
       addItem,
+      delAll,
+      changeAll
     };
   },
 };

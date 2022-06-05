@@ -11,14 +11,15 @@ import { ref } from "vue";
 export default {
   name: "Header",
   props: ["todos"],
-  setup(props:any, content:any) {
-    // const input = ref(Element ||null);
+  setup(props: any, content: any) {
+    // vue3中这么拿ref，import先引入ref，创建一个新的ref，以ref的名字(input)命名，在setup的return里面返回(input)
+    // const input = ref(null);
     const todoContent = ref('')
     function addItem() {
-      if(!todoContent.value.trim()){
+      if (!todoContent.value.trim()) {
         return;
       }
-      content.emit("addItem", { id: Date.now(), content: todoContent.value });
+      content.emit("addItem", { id: Date.now(), content: todoContent.value, isCompleted: false });
       todoContent.value = ''
     }
     return {
@@ -35,6 +36,7 @@ export default {
   text-align: center;
   border: 1px solid aqua;
 }
+
 input {
   width: 80%;
   height: 20px;

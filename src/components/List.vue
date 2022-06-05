@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <Item v-for="(t,index) in todos" :key="t.id" :id="t.id" :content="t.content" :isCompleted="t.isCompleted" :index="index"/>
+    <Item v-for="(t,index) in todos" :key="t.id" :id="t.id" :todo="t"/>
   </div>
 </template>
 
