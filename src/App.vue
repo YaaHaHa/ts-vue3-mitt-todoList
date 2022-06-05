@@ -2,9 +2,12 @@
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   <!-- <Child /> -->
-  <Header :todos="todos" @addItem="addItem" />
-  <List />
-  <Footer @delAll="delAll" @changeAll="changeAll" />
+  <main>
+
+    <Header :todos="todos" @addItem="addItem" />
+    <List />
+    <Footer @delAll="delAll" @changeAll="changeAll" />
+  </main>
 </template>
 
 <script lang="ts">
@@ -152,15 +155,17 @@ export default {
   margin-top: 60px;
 } */
 #app {
-  height: 400px;
+  /* height: 400px; */
   width: 600px;
   /* background: #000; */
-  border: 1px solid #000;
+  border: 1px solid rgb(221, 221, 221);
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+main {
+  padding: 10px;
 }
 </style>

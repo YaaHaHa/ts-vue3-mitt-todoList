@@ -33,13 +33,34 @@ export default {
 <style scoped>
 .header {
   width: 100%;
-  text-align: center;
-  border: 1px solid aqua;
+  height: 40px;
+
 }
 
 input {
+
   width: 80%;
-  height: 20px;
-  font-size: 20px;
+  height: 30px;
+  line-height: 40px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #da4f49;
+  border-color: #bd362f;
+  height: 36px;
+  border-radius: 5px;
+  color: #fff;
+  padding: 4px 12px;
+  cursor: pointer;
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+button:hover {
+  color: #fff;
+  background: #bd362f;
 }
 </style>

@@ -91,7 +91,7 @@ export default {
 }
 
 .item:hover {
-  background: rgba(0, 0, 0, .5);
+  background: #ddd;
 }
 
 .btn {

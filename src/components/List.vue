@@ -19,6 +19,6 @@ export default {
 
 <style scoped>
 .list {
-  border: 1px solid red;
-}
+  border:1px solid rgb(221, 221, 221);
+  }
 </style>

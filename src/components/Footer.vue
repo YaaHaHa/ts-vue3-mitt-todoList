@@ -38,7 +38,7 @@ export default {
         //   }
         // }, []).length
 
-        return allCompleted.value >= (todos as any).value.length && allCompleted.value !==0
+        return allCompleted.value >= (todos as any).value.length && allCompleted.value !== 0
       },
       // 给复选框设置的计算属性设置set，省掉了再绑定事件
       set(value) {
@@ -57,10 +57,28 @@ export default {
 
 <style scoped>
 .footer {
-  position: absolute;
-  width: 600px;
-  bottom: 0;
+  margin: 10px 0 2px;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
 
-  border: 1px solid saddlebrown;
+}
+
+button {
+  background-color: #da4f49;
+  border-color: #bd362f;
+  float: right;
+  margin-right: 5px;
+  height: 36px;
+  border-radius: 5px;
+  color: #fff;
+  padding: 4px 12px;
+  cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.05);
+}
+button:hover{
+  color: #fff;
+  background: #bd362f;
 }
 </style>
