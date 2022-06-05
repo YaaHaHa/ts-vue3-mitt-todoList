@@ -4,7 +4,7 @@
   <!-- <Child /> -->
   <Header :todos="todos" @addItem="addItem" />
   <List />
-  <Footer @delAll="delAll" @changeAll="changeAll"/>
+  <Footer @delAll="delAll" @changeAll="changeAll" />
 </template>
 
 <script lang="ts">
@@ -47,7 +47,7 @@ export default {
     });
 
     // 要给todos设置响应式，不然删除的时候需要最简单的方法是splice，因为splice是自带响应式的
-    let todos = toRef(states, "todos")
+    let todos = toRef(states, "todos");
 
     // 把响应式ref的todos传值给后代，当这里改变todos的时候。inject那里就能马上获取最新的了
     // 方法1
@@ -104,8 +104,17 @@ export default {
     }
     // 全选与全不选
     function changeAll(flag: boolean) {
-      todos.value.forEach((t)=>{
+      todos.value.forEach((t) => {
         t.isCompleted = flag;
+      })
+    }
+    // 更新todo.content
+    function updateContent(todo: Todo): void {
+      todos.value = todos.value.map((t) => {
+        if (t.id === todo.id) {
+          t.content = todo.content;
+        }
+        return t;
       })
     }
     onMounted(() => {
@@ -114,7 +123,8 @@ export default {
       // console.log(mitterBus)
       // 绑定更改任务状态的事件
       mitterBus.$on('changeStatus', changeStatus)
-
+      // 绑定更新todo.content的事件
+      mitterBus.$on('updateContent', updateContent)
     });
     // 监视todos变了就改，因为watch监视的对象不包括普通对象，所以用箭头函数指定需要被监视的数据
     watch(() => states.todos, () => {
@@ -125,7 +135,8 @@ export default {
       ...toRefs(states),
       addItem,
       delAll,
-      changeAll
+      changeAll,
+      updateContent
     };
   },
 };

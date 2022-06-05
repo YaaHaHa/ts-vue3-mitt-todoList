@@ -38,11 +38,11 @@ export default {
         //   }
         // }, []).length
 
-        return allCompleted.value >= (todos as any).value.length
+        return allCompleted.value >= (todos as any).value.length && allCompleted.value !==0
       },
       // 给复选框设置的计算属性设置set，省掉了再绑定事件
       set(value) {
-        context.emit('changeAll',value);
+        context.emit('changeAll', value);
       }
     })
     // 删除所有已完成的任务
